@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\support\Facades\Auth;
-use Illuminate\support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 class AuthManager extends Controller
@@ -29,7 +29,7 @@ class AuthManager extends Controller
             return redirect()->intended(route('home'));
         }
 
-        return redirect(route('Login'))->with("error","Login details are not valid");
+        return redirect(route('login'))->with("error","Login details are not valid");
     }
 
 
@@ -45,6 +45,19 @@ class AuthManager extends Controller
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
+
+        if(!$user){
+            return redirect(route('registration'))->with("error","Registration is unsuccessful");
+        }
+
+        return redirect(route('login'))->with("success","Registration is successful");
+    }
+
+
+    function logout(){
+        Session::flush();
+        Auth::logout();
+        return redirect(route('login'));
     }
 
 
