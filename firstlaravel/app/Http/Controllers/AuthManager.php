@@ -6,15 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 
 class AuthManager extends Controller
 {
     function login(){
+        if(Auth::check()){
+            return redirect(route('home'));
+        }
         return view('login');
     }
 
     function registration(){
+        if(Auth::check()){
+            return redirect(route('home'));
+        }
         return view('registration');
     }
 
